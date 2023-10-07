@@ -65,11 +65,10 @@ waitMessage.then(message => {
         // Exit the 'client.js' process if the message does not start with "/ENTRAR"
         process.exit();
     }
-});
-
-// Handle connection errors and display an error message before exiting the process
-client.on('error', (err) => {
-    console.error('Connection error:', err.message);
-    // Exit the running process in the terminal
-    process.exit();
+    // Handle connection errors and display an error message before exiting the process
+    client.on('error', (err) => {
+        console.error('Erro de conexão:', err.message);
+        // Exit the running process in the terminal
+        process.exit();
+    });
 });

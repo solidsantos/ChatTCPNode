@@ -8,7 +8,7 @@ const PORT = 3333;
 const MAX_CLIENTS = 4;
 
 // Creating an array named 'clients' to manage connected clients
-const clients = [];
+let clients = [];
 
 // BROADCAST FUNCTION - Handles messages from the socket
 function broadcast(message, sender) {
@@ -27,11 +27,12 @@ function broadcast(message, sender) {
         });
     } else if (message === '/USUARIOS') {
         // Send a list of online users to the sender
-        if(clients.length-1 > 0){
+        console.log(clients.length);
+        if (clients.length - 1 > 0) {
             clients.forEach(clientSocket => {
                 if (clientSocket !== sender) sender.write(`${clientSocket.nickname} está online.`);
             });
-        } else{
+        } else {
             sender.write('Ninguém está online.');
         }
     } else {
@@ -71,7 +72,7 @@ const server = net.createServer(socket => {
         socket.on('data', data => {
             if (data.startsWith('/ENTRAR')) {
                 let [, username] = data.split(' ');
-                if (username == 'undefined'){
+                if (username == 'undefined') {
                     username = `user` + (clients.length + 1).toString();
                 }
                 // Check if there's an existing user with the same username
@@ -85,9 +86,6 @@ const server = net.createServer(socket => {
                     clients.push(socket);
                     socket.write(`Bem vindo ao Chat TCP, ${nickname}!`);
                     broadcast('/ENTRAR ' + `${nickname}`, socket);
-                    socket.on('close', () => {
-                        broadcast(`/SAIR`, socket);
-                    });
                 }
             } else if (data.startsWith('/NICK')) {
                 // Receive a new username
