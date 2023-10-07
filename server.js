@@ -100,7 +100,9 @@ const server = net.createServer(socket => {
     // Handle errors to prevent them from crashing the server
     socket.on('error', error => {
         if (error.code === 'ECONNRESET') {
-            broadcast('/SAIR', socket);
+            if(socket.nickname !== 'undefined'){
+                //broadcast('/SAIR', socket);
+            }
         } else {
             console.error('Socket Error:', error);
         }
