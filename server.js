@@ -27,7 +27,7 @@ function broadcast(message, sender) {
         });
     } else if (message === '/USUARIOS') {
         // Send a list of online users to the sender
-        console.log(clients.length);
+        //console.log(clients.length);
         if (clients.length - 1 > 0) {
             clients.forEach(clientSocket => {
                 if (clientSocket !== sender) sender.write(`${clientSocket.nickname} está online.`);
